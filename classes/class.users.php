@@ -19,6 +19,16 @@ class Users extends Dbc {
   protected function setUsers($firstname,$lastname, $email, $password){
     $sql = "INSERT INTO users (first_name, last_name, email, password) values (?, ?, ?, ?)";
     $result = $this->connect()->prepare($sql);
-    $result->execute([$firstname, $lastname, $email, $password]);
+    $registration = $result->execute([$firstname, $lastname, $email, $password]);
+    return $registration;
+
+  }
+
+  protected function getUsers($email, $password){
+    $sql = "SELECT * FROM users WHERE email=?";
+    $result = $this->connect()->prepare($sql);
+    $result->execute([$email]);
+    $users = $result->fetchALL();
+    return $users;
   }
 }
